@@ -150,7 +150,7 @@ export function ProfileView() {
           className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-brand-500 transition-colors placeholder:text-zinc-600 resize-none mb-3"
         />
         <button
-          onClick={() => { setHealthProfile(healthProfile); import('sonner').then(m => m.toast.success('Gesundheitsprofil gespeichert ✅')) }}
+          onClick={() => { setHealthProfile(healthProfile); toast.success('Gesundheitsprofil gespeichert ✅') }}
           className="px-4 py-2 bg-brand-500 hover:bg-brand-400 text-white font-semibold rounded-xl text-sm transition-all"
         >
           Speichern

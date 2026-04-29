@@ -37,11 +37,11 @@ export function CalendarView({ onVoice }: { onVoice?: () => void }) {
   const selectedLog = logs[selectedDate] ?? { date: selectedDate, entries: [], plannedMeals: [] }
   const totals = sumMacros(selectedLog.entries)
   const targetCal = plan?.targetCalories ?? 2000
-  const grouped = selectedLog.entries.reduce((acc, e) => {
-    if (!acc[e.mealType]) acc[e.mealType] = []
-    acc[e.mealType].push(e)
-    return acc
-  }, {} as Record<string, FoodEntry[]>)
+  const grouped: Record<string, FoodEntry[]> = {}
+  selectedLog.entries.forEach(e => {
+    if (!grouped[e.mealType]) grouped[e.mealType] = []
+    grouped[e.mealType].push(e)
+  })
 
   // AI plan for future day
   async function planWithAI() {
@@ -104,11 +104,11 @@ export function CalendarView({ onVoice }: { onVoice?: () => void }) {
   }
 
   const plannedMeals = selectedLog.plannedMeals ?? []
-  const groupedPlanned = plannedMeals.reduce((acc, m) => {
-    if (!acc[m.mealType]) acc[m.mealType] = []
-    acc[m.mealType].push(m)
-    return acc
-  }, {} as Record<string, PlannedMeal[]>)
+  const groupedPlanned: Record<string, PlannedMeal[]> = {}
+  plannedMeals.forEach(m => {
+    if (!groupedPlanned[m.mealType]) groupedPlanned[m.mealType] = []
+    groupedPlanned[m.mealType].push(m)
+  })
 
   return (
     <div className="px-4 pt-8 pb-4 space-y-5">

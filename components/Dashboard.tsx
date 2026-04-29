@@ -102,11 +102,11 @@ export function Dashboard({ onVoice }: DashboardProps) {
   if (!plan) return null
 
   // Group entries by meal type
-  const grouped = log.entries.reduce((acc, e) => {
-    if (!acc[e.mealType]) acc[e.mealType] = []
-    acc[e.mealType].push(e)
-    return acc
-  }, {} as Record<string, FoodEntry[]>)
+  const grouped: Record<string, FoodEntry[]> = {}
+  log.entries.forEach(e => {
+    if (!grouped[e.mealType]) grouped[e.mealType] = []
+    grouped[e.mealType].push(e)
+  })
 
   const mealOrder: FoodEntry['mealType'][] = ['breakfast', 'lunch', 'snack', 'dinner']
 
