@@ -139,11 +139,26 @@ export interface FoodEntry {
   confidence: 'verified' | 'estimated' | 'unknown'
 }
 
+
+export interface PlannedMeal {
+  id: string
+  mealType: 'breakfast' | 'lunch' | 'snack' | 'dinner'
+  name: string
+  calories: number
+  protein: number
+  carbs: number
+  fat: number
+  amount: number
+  unit: string
+}
+
 export interface DayLog {
   date: string
   entries: FoodEntry[]
   weight?: number
   water?: number // Gläser
+  plannedMeals?: PlannedMeal[]
+  plannedNote?: string
 }
 
 export function sumMacros(entries: FoodEntry[]) {

@@ -123,13 +123,13 @@ export default function App() {
     <div className="min-h-screen bg-zinc-950 flex flex-col max-w-lg mx-auto relative">
       <main className="flex-1 pb-24 overflow-y-auto">
         {tab === 'home' && <Dashboard onVoice={() => setTab('voice')} />}
-        {tab === 'calendar' && <CalendarView onVoice={() => setTab('voice')} />}
-        {tab === 'voice' && <VoiceInput onDone={() => setTab('home')} />}
-        {tab === 'chat' && <ChatView />}
-        {tab === 'activity' && <ActivityView />}
-        {tab === 'inspiration' && <InspirationView />}
-        {tab === 'avatar' && <AvatarView />}
-        {tab === 'profile' && <ProfileView />}
+      {tab === 'calendar' && <CalendarView onVoice={() => setTab('voice')} />}
+      {tab === 'voice' && <VoiceInput onDone={() => setTab('home')} />}
+      {tab === 'chat' && <ChatView />}
+      {tab === 'activity' && <ActivityView />}
+      {tab === 'inspiration' && <InspirationView />}
+      {tab === 'avatar' && <AvatarView />}
+      {tab === 'profile' && <ProfileView />}
         {tab === 'avatar' && <AvatarView />}
         {tab === 'inspiration' && <InspirationView />}
         {tab === 'avatar' && <AvatarView />}

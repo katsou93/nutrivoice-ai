@@ -2,7 +2,7 @@
 
 import { useStore } from '@/lib/store'
 import { sumMacros, MEAL_LABELS, type FoodEntry } from '@/lib/nutrition'
-import { Mic, Droplets, Plus, Trash2, TrendingUp, AlertCircle } from 'lucide-react'
+import { Mic, Droplets, Plus, Trash2, TrendingUp, AlertCircle, Sparkles } from 'lucide-react'
 import { toast } from 'sonner'
 
 interface DashboardProps {
@@ -36,7 +36,6 @@ function CalorieRing({ current, target }: { current: number; target: number }) {
           {pct > 1 ? `+${Math.round(current - target)} kcal` : `${Math.round(target - current)} übrig`}
         </span>
       </div>
-      {showWrapped && <MonthlyWrapped onClose={() => setShowWrapped(false)} />}
     </div>
   )
 }
@@ -95,6 +94,9 @@ export function Dashboard({ onVoice }: DashboardProps) {
   const today = useStore(s => s.today)
 
   const log = todayLog()
+  const [showWrapped, setShowWrapped] = useState(false)
+  const burnedToday = useStore(s => s.getTotalBurnedToday)()
+  const adjustedTarget = (plan?.targetCalories ?? 2000) + burnedToday
   const totals = sumMacros(log.entries)
   const date = today()
   const water = log.water ?? 0
@@ -120,6 +122,7 @@ export function Dashboard({ onVoice }: DashboardProps) {
 
   return (
     <div className="px-4 pt-8 pb-4 space-y-6">
+      {showWrapped && <MonthlyWrapped onClose={() => setShowWrapped(false)} />}
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
