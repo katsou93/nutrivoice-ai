@@ -5,6 +5,7 @@ import { useStore } from '@/lib/store'
 import { sumMacros, MEAL_LABELS, type FoodEntry } from '@/lib/nutrition'
 import { Mic, Droplets, Plus, Trash2, TrendingUp, AlertCircle, Sparkles } from 'lucide-react'
 import { toast } from 'sonner'
+import { MonthlyWrapped } from '@/components/MonthlyWrapped'
 
 interface DashboardProps {
   onVoice: () => void
