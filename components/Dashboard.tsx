@@ -1,4 +1,5 @@
 'use client'
+import { useState } from 'react'
 
 import { useStore } from '@/lib/store'
 import { sumMacros, MEAL_LABELS, type FoodEntry } from '@/lib/nutrition'
