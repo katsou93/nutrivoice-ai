@@ -3,10 +3,19 @@
 import { useState } from 'react'
 import { useStore } from '@/lib/store'
 import { ACTIVITY_LEVELS, PAL_LABELS, type UserProfile, type ActivityLevel, type Sex, type Goal } from '@/lib/nutrition'
-import { AVATAR_LEVELS, type AvatarType } from '@/lib/avatar'
+import { type AvatarType } from '@/lib/avatar'
+import { AvatarRenderer } from './AvatarRenderer'
 import { ChevronRight, ChevronLeft, Zap } from 'lucide-react'
 
 const STEPS = ['Avatar', 'Willkommen', 'Körper', 'Ziel', 'Aktivität', 'API Key']
+
+const AVATAR_OPTIONS: { type: AvatarType; name: string; emoji: string; description: string; level1: string }[] = [
+  { type: 'panda', name: 'Panda', emoji: '🐼', description: 'Süß, stark, zen', level1: 'Baby Panda' },
+  { type: 'avocado', name: 'Avocado', emoji: '🥑', description: 'Healthy, trendy, grün', level1: 'Unreife Avocado' },
+  { type: 'pixel', name: 'Pixel-Held', emoji: '🕹️', description: '8-Bit Retro-Gamer', level1: '8-Bit Newbie' },
+  { type: 'blob', name: 'DNA-Blob', emoji: '🧬', description: 'Mysteriös, kosmisch', level1: 'Mikrozelle' },
+  { type: 'frog', name: 'Frosch', emoji: '🐸', description: 'Entspannt, memeable', level1: 'Kaulquappe' },
+]
 
 export function Onboarding() {
   const setProfile = useStore((s) => s.setProfile)
@@ -48,7 +57,7 @@ export function Onboarding() {
   return (
     <div className="min-h-screen bg-zinc-950 flex flex-col items-center justify-center px-6 py-12">
       {/* Logo */}
-      <div className="mb-10 text-center">
+      <div className="mb-8 text-center">
         <div className="w-16 h-16 rounded-2xl bg-brand-500 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-brand-500/30">
           <Zap size={32} className="text-white" />
         </div>
@@ -57,7 +66,7 @@ export function Onboarding() {
       </div>
 
       {/* Progress bar */}
-      <div className="w-full max-w-sm mb-8">
+      <div className="w-full max-w-sm mb-6">
         <div className="h-1 bg-zinc-800 rounded-full">
           <div
             className="h-1 bg-brand-500 rounded-full transition-all duration-300"
@@ -69,34 +78,40 @@ export function Onboarding() {
       {/* Step content */}
       <div className="w-full max-w-sm">
 
+        {/* Step 0: Avatar choice */}
         {step === 0 && (
           <div className="space-y-4">
             <h2 className="text-xl font-display font-bold text-white">Wähle deinen Avatar</h2>
-            <p className="text-zinc-400 text-sm">Dein Avatar wächst mit dir. Jedes Level hat einzigartige Namen!</p>
-            <div className="grid grid-cols-1 gap-3">
-              {(Object.values(Object.keys(AVATAR_LEVELS)) as typeof Object.keys(AVATAR_LEVELS)[AvatarType][]).map(avatar => (
+            <p className="text-zinc-400 text-sm">Dein Avatar wächst mit dir – jedes Level hat einzigartige Namen!</p>
+            <div className="space-y-3">
+              {AVATAR_OPTIONS.map((av) => (
                 <button
-                  key={avatar.id}
-                  onClick={() => set('selectedAvatar', avatar.id)}
-                  className={`p-4 rounded-xl border text-left transition-all ${form.selectedAvatar === avatar.id ? 'border-brand-500 bg-brand-500/10' : 'border-zinc-800 hover:border-zinc-700'}`}
+                  key={av.type}
+                  onClick={() => set('selectedAvatar', av.type)}
+                  className={`w-full flex items-center gap-3 p-3 rounded-xl border text-left transition-all ${
+                    form.selectedAvatar === av.type
+                      ? 'border-brand-500 bg-brand-500/10'
+                      : 'border-zinc-800 hover:border-zinc-700'
+                  }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="text-3xl">{avatar.emoji}</span>
-                    <div className="flex-1">
-                      <p className="text-white font-semibold">{avatar.name}</p>
-                      <p className="text-zinc-400 text-xs">{avatar.description}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-zinc-500 text-xs">Level 1:</p>
-                      <p className="text-brand-400 text-xs font-semibold">{avatar.levels[0].name}</p>
-                    </div>
+                  <div className="w-14 h-14 shrink-0">
+                    <AvatarRenderer type={av.type} equippedItems={{}} size={56} />
                   </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-white font-semibold">{av.emoji} {av.name}</p>
+                    <p className="text-zinc-400 text-xs">{av.description}</p>
+                    <p className="text-brand-400 text-xs mt-0.5">Start: {av.level1}</p>
+                  </div>
+                  {form.selectedAvatar === av.type && (
+                    <span className="text-brand-400 text-lg shrink-0">✓</span>
+                  )}
                 </button>
               ))}
             </div>
           </div>
         )}
 
+        {/* Step 1: Welcome */}
         {step === 1 && (
           <div className="text-center space-y-4">
             <h2 className="text-2xl font-display font-bold text-white">Willkommen! 👋</h2>
@@ -111,10 +126,10 @@ export function Onboarding() {
           </div>
         )}
 
-        {step === 1 && (
+        {/* Step 2: Body data */}
+        {step === 2 && (
           <div className="space-y-5">
             <h2 className="text-xl font-display font-bold text-white">Deine Körperdaten</h2>
-
             <div className="grid grid-cols-2 gap-3">
               <button
                 onClick={() => set('sex', 'male')}
@@ -129,7 +144,6 @@ export function Onboarding() {
                 👩 Weiblich
               </button>
             </div>
-
             {[
               { label: 'Alter', key: 'age', unit: 'Jahre', min: 10, max: 100 },
               { label: 'Gewicht', key: 'weightKg', unit: 'kg', min: 30, max: 300 },
@@ -152,10 +166,10 @@ export function Onboarding() {
           </div>
         )}
 
-        {step === 2 && (
+        {/* Step 3: Goal */}
+        {step === 3 && (
           <div className="space-y-5">
             <h2 className="text-xl font-display font-bold text-white">Dein Ziel</h2>
-
             <div className="space-y-3">
               {[
                 { id: 'gain', label: '📈 Zunehmen', desc: 'Muskeln aufbauen, Gewicht erhöhen' },
@@ -172,7 +186,6 @@ export function Onboarding() {
                 </button>
               ))}
             </div>
-
             {form.goal !== 'maintain' && (
               <>
                 <div>
@@ -184,11 +197,8 @@ export function Onboarding() {
                     className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white text-lg font-bold outline-none focus:border-brand-500 transition-colors"
                   />
                 </div>
-
                 <div>
-                  <label className="text-sm text-zinc-400 mb-2 block">
-                    Tempo: {form.weeklyRateKg} kg/Woche
-                  </label>
+                  <label className="text-sm text-zinc-400 mb-2 block">Tempo: {form.weeklyRateKg} kg/Woche</label>
                   <div className="grid grid-cols-4 gap-2">
                     {[0.25, 0.5, 0.75, 1.0].map(r => (
                       <button
@@ -200,20 +210,17 @@ export function Onboarding() {
                       </button>
                     ))}
                   </div>
-                  <p className="text-xs text-zinc-500 mt-2">
-                    {form.weeklyRateKg <= 0.5 ? '✅ Sauber & nachhaltig' : form.weeklyRateKg <= 0.75 ? '⚠️ Moderat aggressiv' : '⚠️ Erhöhter Fettanteil'}
-                  </p>
                 </div>
               </>
             )}
           </div>
         )}
 
-        {step === 3 && (
+        {/* Step 4: Activity */}
+        {step === 4 && (
           <div className="space-y-4">
             <h2 className="text-xl font-display font-bold text-white">Aktivitätslevel</h2>
-            <p className="text-sm text-zinc-400">Basiert auf dem PAL-Wert (Physical Activity Level) nach ACSM-Richtlinien</p>
-
+            <p className="text-sm text-zinc-400">Basiert auf dem PAL-Wert nach ACSM-Richtlinien</p>
             {ACTIVITY_LEVELS.map(level => (
               <button
                 key={level}
@@ -229,28 +236,25 @@ export function Onboarding() {
           </div>
         )}
 
-        {step === 4 && (
+        {/* Step 5: API Key */}
+        {step === 5 && (
           <div className="space-y-5">
             <h2 className="text-xl font-display font-bold text-white">Anthropic API Key</h2>
             <p className="text-sm text-zinc-400 leading-relaxed">
-              Damit die KI-Features funktionieren, brauchst du deinen Anthropic API Key. Du findest ihn unter{' '}
+              Für die KI-Features brauchst du einen API Key von{' '}
               <a href="https://console.anthropic.com" target="_blank" className="text-brand-400 underline">console.anthropic.com</a>
             </p>
-
-            <div>
-              <input
-                type="password"
-                value={form.apiKey}
-                onChange={e => set('apiKey', e.target.value)}
-                placeholder="sk-ant-..."
-                className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-4 text-white font-mono text-sm outline-none focus:border-brand-500 transition-colors"
-              />
-              <p className="text-xs text-zinc-500 mt-2">🔒 Wird nur lokal in deinem Browser gespeichert, nie übertragen</p>
-            </div>
-
+            <input
+              type="password"
+              value={form.apiKey}
+              onChange={e => set('apiKey', e.target.value)}
+              placeholder="sk-ant-..."
+              className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-4 text-white font-mono text-sm outline-none focus:border-brand-500 transition-colors"
+            />
+            <p className="text-xs text-zinc-500">🔒 Nur lokal gespeichert – nie übertragen</p>
             <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 text-sm text-zinc-400">
               <p className="font-semibold text-white mb-1">Auch ohne API Key nutzbar:</p>
-              <p>Manuelles Tracking, Kalorienpläne und alle Berechnungen funktionieren offline.</p>
+              <p>Manuelles Tracking und Berechnungen funktionieren offline.</p>
             </div>
           </div>
         )}
