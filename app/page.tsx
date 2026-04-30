@@ -6,13 +6,12 @@ import { Onboarding } from '@/components/Onboarding'
 import { Dashboard } from '@/components/Dashboard'
 import { VoiceInput } from '@/components/VoiceInput'
 import { ChatView } from '@/components/ChatView'
-import { PlanView } from '@/components/PlanView'
 import { ProfileView } from '@/components/ProfileView'
 import { CalendarView } from '@/components/CalendarView'
 import { InspirationView } from '@/components/InspirationView'
 import { AvatarView } from '@/components/AvatarView'
 import { ActivityView } from '@/components/ActivityView'
-import { Home, User, Mic, CalendarDays, Key, Sparkles, Dumbbell } from 'lucide-react'
+import { Home, User, Mic, CalendarDays, Key, Dumbbell } from 'lucide-react'
 import { toast } from 'sonner'
 
 const TABS = [
@@ -117,7 +116,7 @@ export default function App() {
   const isGuest = useStore(s => s.isGuest)
   const [tab, setTab] = useState('home')
 
-  if (!profile) return <OnboardingOrGuest />
+  if (!profile && !isGuest return <OnboardingOrGuest />
 
   return (
     <div className="min-h-screen bg-zinc-950 flex flex-col max-w-lg mx-auto relative">
@@ -130,13 +129,7 @@ export default function App() {
       {tab === 'inspiration' && <InspirationView />}
       {tab === 'avatar' && <AvatarView />}
       {tab === 'profile' && <ProfileView />}
-        {tab === 'avatar' && <AvatarView />}
-        {tab === 'inspiration' && <InspirationView />}
-        {tab === 'avatar' && <AvatarView />}
-        {tab === 'profile' && <ProfileView />}
-        {tab === 'avatar' && <AvatarView />}
-        {tab === 'profile' && <ProfileView />}
-      </main>
+        main>
 
       <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-lg bg-zinc-900/95 backdrop-blur border-t border-zinc-800 flex items-center justify-around h-20 px-2 z-50">
         {TABS.map((t) => {
