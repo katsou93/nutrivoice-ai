@@ -129,7 +129,7 @@ export default function App() {
       {tab === 'inspiration' && <InspirationView />}
       {tab === 'avatar' && <AvatarView />}
       {tab === 'profile' && <ProfileView />}
-        main>
+      </main>
 
       <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-lg bg-zinc-900/95 backdrop-blur border-t border-zinc-800 flex items-center justify-around h-20 px-2 z-50">
         {TABS.map((t) => {
