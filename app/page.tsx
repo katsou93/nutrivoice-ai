@@ -116,7 +116,7 @@ export default function App() {
   const isGuest = useStore(s => s.isGuest)
   const [tab, setTab] = useState('home')
 
-  if (!profile && !isGuest return <OnboardingOrGuest />
+  if (!profile && !isGuest ) return <OnboardingOrGuest />
 
   return (
     <div className="min-h-screen bg-zinc-950 flex flex-col max-w-lg mx-auto relative">
