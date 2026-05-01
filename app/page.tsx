@@ -11,7 +11,7 @@ import { CalendarView } from '@/components/CalendarView'
 import { InspirationView } from '@/components/InspirationView'
 import { AvatarView } from '@/components/AvatarView'
 import { ActivityView } from '@/components/ActivityView'
-import { Home, User, Mic, CalendarDays, Key, Dumbbell } from 'lucide-react'
+import { Home, User, Mic, CalendarDays, Key, Dumbbell, Smile } from 'lucide-react'
 import { toast } from 'sonner'
 
 const TABS = [
@@ -19,6 +19,7 @@ const TABS = [
   { id: 'calendar', label: 'Kalender', icon: CalendarDays },
   { id: 'voice', label: '', icon: Mic },
   { id: 'activity', label: 'Sport', icon: Dumbbell },
+  { id: 'avatar', label: 'Avatar', icon: Smile },
   { id: 'profile', label: 'Profil', icon: User },
 ]
 
